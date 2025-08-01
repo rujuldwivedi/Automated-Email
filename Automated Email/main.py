@@ -12,7 +12,7 @@ creds = ServiceAccountCredentials.from_json_keyfile_name("google-creds.json", sc
 client = gspread.authorize(creds)
 
 # --- Step 2: Read Sheet ---
-sheet = client.open("Recruiters").sheet1  # Adjust name if needed
+sheet = client.open("Recruiters").sheet1
 data = sheet.get_all_records()
 df = pd.DataFrame(data)
 
@@ -27,7 +27,7 @@ else:
 # --- Step 4: Filter New Rows ---
 new_rows = df.iloc[last_row:]
 if new_rows.empty:
-    print("✅ No new rows to send.")
+    print("No new rows to send.")
     exit()
 
 # --- Step 5: Email Sender Setup ---
@@ -49,7 +49,7 @@ def send_email(to, name, job_id, job_link):
     👉 Job ID: {job_id or 'N/A'}
     🔗 Job Link: {job_link or 'Not provided'}
 
-    Please find my resume attached here: [Insert your resume link]
+    Please find my resume attached here: https://www.tinyurl.com/rujuldwivedi
 
     Thank you so much in advance!
 
@@ -75,4 +75,4 @@ for _, row in new_rows.iterrows():
 with open(STATE_FILE, "w") as f:
     f.write(str(len(df)))
 
-print("✅ Done processing all new rows.")
+print("Done processing all new rows.")
